@@ -3,8 +3,8 @@ A   CapitalT   class and functions that use/test it.
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Miguel Cooper.
+"""  # done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
@@ -162,7 +162,7 @@ class CapitalT(object):
           :type letter_thickness:    int
         """
         # ---------------------------------------------------------------------
-        # TODO: 3.
+        # done: 3.
         #   READ the above specification, including the Example.
         #   Implement this method, using the instance variables
         #      h_rect
@@ -170,6 +170,13 @@ class CapitalT(object):
         #   and *** NO OTHER INSTANCE VARIABLES. ***
         #   Note: Implement   attach_to   before testing this __init__ method.
         # ---------------------------------------------------------------------
+        self.h_rect = rg.Rectangle(
+            rg.Point(intersection_center.x - width / 2, intersection_center.y - letter_thickness / 2),
+            rg.Point(intersection_center.x + width / 2, intersection_center.y + letter_thickness / 2))
+        self.v_rect = rg.Rectangle(
+            rg.Point(intersection_center.x - letter_thickness / 2, intersection_center.y - letter_thickness / 2),
+            rg.Point(intersection_center.x + letter_thickness / 2,
+                     intersection_center.y - letter_thickness / 2 + height))
 
     def attach_to(self, window):
         """
@@ -190,7 +197,7 @@ class CapitalT(object):
           :type window: rg.RoseWindow
         """
         # ---------------------------------------------------------------------
-        # TODO: 4.
+        # done: 4.
         #   READ the above specification, including the Example.
         #   Implement this method, then TEST it by:
         #     a. Un-comment the call to its test function, in main.  Run.
@@ -198,8 +205,10 @@ class CapitalT(object):
         #     c. Compare the graphics window to the   simple_t.pdf   pictures.
         #        They should look exactly the same as each other.
         # ---------------------------------------------------------------------
+        self.v_rect.attach_to(window)
+        self.h_rect.attach_to(window)
 
-    def set_colors(self, fill_color, outline_color):
+def set_colors(self, fill_color, outline_color):
         """
         What comes in:
           -- self
@@ -222,7 +231,7 @@ class CapitalT(object):
           :type outline_color: str
         """
         # ---------------------------------------------------------------------
-        # TODO: 5.
+        # done: 5.
         #   READ the above specification, including the Example.
         #   Implement this method, then TEST it by:
         #     a. Un-comment the call to its test function, in main.  Run.
@@ -230,6 +239,10 @@ class CapitalT(object):
         #     c. Compare the graphics window to the  set_colors.pdf   pictures.
         #        They should look exactly the same as each other.
         # ---------------------------------------------------------------------
+        self.h_rect.fill_color = fill_color
+        self.v_rect.fill_color = fill_color
+        self.h_rect.outline_color = outline_color
+        self.v_rect.outline_color = outline_color
 
     def move_by(self, dx, dy):
         """
@@ -255,7 +268,7 @@ class CapitalT(object):
           :type dy: int
         """
         # ---------------------------------------------------------------------
-        # TODO: 6.
+        # done: 6.
         #   READ the above specification, including the Example.
         #   Implement this method, then TEST it by:
         #     a. Un-comment the call to its test function, in main.  Run.
@@ -266,8 +279,12 @@ class CapitalT(object):
         #        Note: the pdf shows the different locations that
         #        the T moves through, but there is only one T at any moment.
         # ---------------------------------------------------------------------
+        self.h_rect.corner_1 = rg.Point(self.h_rect.corner_1.x + dx, self.h_rect.corner_1.y + dy)
+        self.h_rect.corner_2 = rg.Point(self.h_rect.corner_2.x + dx, self.h_rect.corner_2.y + dy)
+        self.v_rect.corner_1 = rg.Point(self.v_rect.corner_1.x + dx, self.v_rect.corner_1.y + dy)
+        self.v_rect.corner_2 = rg.Point(self.v_rect.corner_2.x + dx, self.v_rect.corner_2.y + dy)
 
-    def clone(self):
+def clone(self):
         """
         What comes in:
           -- self
@@ -288,7 +305,7 @@ class CapitalT(object):
           :rtype: CapitalT
         """
         # ---------------------------------------------------------------------
-        # TODO: 7.
+        # done: 7.
         #   READ the above specification, including the Example.
         #   Implement this method, then TEST it by:
         #     a. Un-comment the call to its test function, in main.  Run.
@@ -300,7 +317,10 @@ class CapitalT(object):
         # IMPORTANT RESTRICTION: You are NOT permitted to add any instance
         # variables beyond  h_rect  and  v_rect, at any point of this exercise.
         #######################################################################
-
+        new_h = CapitalT(self.h_rect.get_center(), self.h_rect.get_width(), self.v_rect.get_height(),
+                         self.h_rect.get_height())
+        new_h.set_colors(self.h_rect.fill_color, self.h_rect.outline_color)
+        return new_h
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
